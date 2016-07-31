@@ -1,0 +1,18 @@
+*.idea/
+*.py[co]
+
+# OS X-related files
+.DS_Store
+
+# Project-specific list
+*.sqlite3
+local.py
+
+/public
+/node_modules
+/frontend/bundles
+webpack-stats.json
+npm-debug.log
+celerybeat-schedule
+
+myapp.log
