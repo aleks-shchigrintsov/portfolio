@@ -10,7 +10,7 @@ local.py
 
 /public
 /node_modules
-/frontend/bundles
+/static/build
 webpack-stats.json
 npm-debug.log
 celerybeat-schedule
