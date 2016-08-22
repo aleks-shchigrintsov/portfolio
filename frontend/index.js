@@ -1,9 +1,18 @@
-import styles from 'css/app.css'
+import React from 'react';
+import { Router, Route, Redirect, IndexRedirect, browserHistory } from 'react-router';
+import ReactDOM from 'react-dom';
+import ES6Promise from 'es6-promise';
+import { createHashHistory } from 'history'
+import MainComponent from 'components/MainComponent/MainComponent.js';
+import Routes from './routes.js';
 
-let element = `
-  <div class="${styles.element}">
-    <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Consequatur laudantium recusandae itaque libero velit minus ex reiciendis veniam. Eligendi modi sint delectus beatae nemo provident ratione maiores, voluptatibus a tempore!</p>
-  </div>
-`;
+ES6Promise.polyfill();
 
-document.write(element);
+const routes = (
+    <Router history={browserHistory}>
+        <Route path={Routes.main} component={MainComponent} />
+    </Router>
+);
+
+const appNode = document.getElementById('client-content');
+ReactDOM.render(routes, appNode);
