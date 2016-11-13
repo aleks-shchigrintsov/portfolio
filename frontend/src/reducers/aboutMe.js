@@ -6,11 +6,11 @@ const initialState = {
 
 export default function aboutMe(state = initialState, action = {}) {
   switch (action.type) {
-    // case types.LOGIN:
-    //   return {
-    //     ...state,
-    //     isLogged: 'YES'
-    //   };
+    case types.CHANGE_NAME:
+      return {
+        ...state,
+        name: 'ALEX S.'
+      };
 
     default:
       return state;

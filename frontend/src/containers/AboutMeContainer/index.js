@@ -6,11 +6,13 @@ import * as actions from './actions';
 
 class AboutMeContainer extends Component {
     render() {
-        const aboutMeState = this.props.aboutMeState;
+        const { aboutMeState, aboutMeActions } = this.props;
 
         return (
             <div>
                 {aboutMeState.name}
+
+                <button onClick={() => aboutMeActions.changeName()}>CHANGE NAME</button>
             </div>
         );
     }
@@ -20,6 +22,6 @@ export default connect(state => ({
         aboutMeState: state.aboutMe
     }),
     (dispatch) => ({
-        actions: bindActionCreators(actions, dispatch)
+        aboutMeActions: bindActionCreators(actions, dispatch)
     })
 )(AboutMeContainer);

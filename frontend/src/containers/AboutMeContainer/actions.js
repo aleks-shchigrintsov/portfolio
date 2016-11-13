@@ -1,8 +1,8 @@
 import * as types from 'constants/actionTypes';
 
-
-export function ACTION_NAME () { //should be action name
+export function changeName () {
+  console.log('d')
   return {
-    'ACTION_TYPE': types //types.TYPE_CONSTANT_NAME
+    type: types.CHANGE_NAME
   };
 }
