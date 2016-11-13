@@ -26,8 +26,8 @@ const history = syncHistoryWithStore(browserHistory, store);
 const routes = (
     <Provider store={store}>
         <Router history={history}>
-            <Route path={Routes.main} component={AboutMeContainer}>
-                {/*<Route path={Routes.aboutMe} component={AboutMeContainer}/>*/}
+            <Route path={Routes.main} component={MainComponent}>
+                <Route path={Routes.aboutMe} component={AboutMeContainer}/>
             </Route>
         </Router>
     </Provider>

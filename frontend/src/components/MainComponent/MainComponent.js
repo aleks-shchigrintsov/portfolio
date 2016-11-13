@@ -4,9 +4,11 @@ import styles from './MainComponent.modules.css'
 
 export default class MainComponent extends Component {
     render() {
+        const { children } = this.props;
+
         return (
             <div className={styles.mainComponent}>
-                {cloneElement(this.props.children, this.props)}
+                {children && cloneElement(children, this.props)}
             </div>
         );
     }

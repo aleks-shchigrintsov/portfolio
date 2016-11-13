@@ -1,0 +1,14 @@
+{% extends 'main/base.html' %}
+{% load render_bundle from webpack_loader %}
+
+{% block styles %}
+    {% render_bundle 'main' 'css' %}
+{% endblock %}
+
+{% block content %}
+    <div id="client-content"></div>
+{% endblock %}
+
+{% block scripts %}
+    {% render_bundle 'main' 'js' %}
+{% endblock %}

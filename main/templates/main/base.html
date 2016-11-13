@@ -1,0 +1,26 @@
+{% load staticfiles %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+
+    <title>{% block head_title %}{% endblock %} | ALEX </title>
+
+    {% block styles %}{% endblock %}
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+
+    {{ HEAD_CLOSING|safe }}
+</head>
+<body>
+<main>
+    {% block content %}{% endblock %}
+
+    {% block scripts %}{% endblock %}
+</main>
+
+{{ BODY_CLOSING|safe }}
+</body>
+</html>
