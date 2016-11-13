@@ -1,4 +1,5 @@
 export default {
     // react routes
-    main: '/'
+    main: '/',
+    aboutMe: '/about-me'
 };

@@ -1,13 +1,13 @@
-import React, { Component, PropTypes } from 'react';
+import React, { Component, PropTypes, cloneElement } from 'react';
 
 import styles from './MainComponent.modules.css'
 
-const MainComponent = () => {
-    return (
-        <div className={styles.mainComponent}>
-            sdasddasdads
-        </div>
-    );
+export default class MainComponent extends Component {
+    render() {
+        return (
+            <div className={styles.mainComponent}>
+                {cloneElement(this.props.children, this.props)}
+            </div>
+        );
+    }
 };
-
-export default MainComponent;
