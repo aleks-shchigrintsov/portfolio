@@ -1,7 +1,7 @@
 var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var webpack = require('webpack');
-var precss       = require('precss');
+var precss = require('precss');
 var autoprefixer = require('autoprefixer');
 var BundleTracker = require('webpack-bundle-tracker')
 
@@ -16,18 +16,16 @@ var COMMON_CSS_PATH = path.resolve(FRONTEND_PATH, 'css');
 var BUILD_PATH = path.resolve(ROOT_PATH, 'static/build');
 var IMAGE_PATH = path.resolve(SRC_PATH, 'img');
 var NODE_MODULES_PATH = path.resolve(FRONTEND_PATH, 'node_modules');
+var cssModulesConfigStr = 'modules&sourceMap&camelCase=dashes&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]';
+
 
 module.exports = {
     devtool: NODE_ENV == 'development' ? 'eval-source-map' : 'cheap-module-source-map',
-    entry: [
-        'webpack-dev-server/client?http://localhost:3000',
-        'webpack/hot/only-dev-server',
-        path.resolve(SRC_PATH,'index.js')
-    ],
+    entry: path.resolve(SRC_PATH,'index.js'),
 
     output: {
         path: BUILD_PATH,
-        publicPath: 'http://localhost:4000/static/build/',
+        publicPath: NODE_ENV == 'development' ? 'http://localhost:4000/static/build/' : '/static/build',
         filename: "[name]-[hash].js",
     },
 
@@ -38,18 +36,6 @@ module.exports = {
 
     module: {
         loaders: [
-            {
-                test: /\.js/,
-                loaders: ['react-hot', 'babel'],
-                include: SRC_PATH,
-                exclude: NODE_MODULES_PATH
-            },
-            {
-                test: /\.css/,
-                include: [COMPONENTS_PATH, COMMON_CSS_PATH],
-                loader: ExtractTextPlugin.extract('css?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]'),
-            },
-
             { test: /\.png$/, loader: "url-loader?limit=500000&mimetype=image/png" },
             { test: /\.jpg$/, loader: "url-loader?limit=500000&mimetype=image/jpg", include: IMAGE_PATH },
             { test: /\.json$/, loaders: ['json-loader'], include: NODE_MODULES_PATH },
@@ -65,8 +51,6 @@ module.exports = {
     },
 
     plugins: [
-        new webpack.HotModuleReplacementPlugin(),
-        new webpack.NoErrorsPlugin(),
         new BundleTracker({filename: './webpack-stats.json'}),
         new webpack.DefinePlugin({
             'process.env': {
@@ -99,9 +83,36 @@ if (NODE_ENV == 'production') {
         }),
         new webpack.optimize.OccurenceOrderPlugin(true),
         new webpack.NoErrorsPlugin()
+    );
+
+    module.exports.module.loaders.push(
+        {
+            test: /\.js/,
+            loader: 'babel',
+            include: SRC_PATH,
+            exclude: NODE_MODULES_PATH
+        },
+
+        {
+            test: /\.css/,
+            include: [COMPONENTS_PATH, COMMON_CSS_PATH],
+            loader: 'style?sourceMap!css?' + cssModulesConfigStr
+        }
     )
 }
 
 if (NODE_ENV == 'development') {
-    module.exports.plugins.push(new webpack.HotModuleReplacementPlugin())
+    module.exports.plugins.push(new webpack.HotModuleReplacementPlugin());
+    module.exports.module.loaders.push({
+            test: /\.js/,
+            loaders: ['react-hot', 'babel'],
+            include: SRC_PATH,
+            exclude: NODE_MODULES_PATH
+        },
+        {
+            test: /\.css/,
+            include: [COMPONENTS_PATH, COMMON_CSS_PATH],
+            loader: ExtractTextPlugin.extract('style-loader', 'css-loader?' + cssModulesConfigStr)
+        }
+    )
 }
