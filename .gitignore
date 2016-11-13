@@ -9,7 +9,7 @@
 local.py
 
 /public
-/node_modules
+frontend/node_modules
 /static/build
 webpack-stats.json
 npm-debug.log

@@ -3,39 +3,46 @@ var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var webpack = require('webpack');
 var precss       = require('precss');
 var autoprefixer = require('autoprefixer');
+var BundleTracker = require('webpack-bundle-tracker')
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
 var ROOT_PATH = path.resolve(__dirname, '..');
 var FRONTEND_PATH = path.resolve(ROOT_PATH, 'frontend');
-var COMPONENTS_PATH = path.resolve(FRONTEND_PATH, 'components');
-var PAGES_PATH = path.resolve(FRONTEND_PATH, 'pages');
+var SRC_PATH = path.resolve(FRONTEND_PATH, 'src');
+var COMPONENTS_PATH = path.resolve(SRC_PATH, 'components');
+var PAGES_PATH = path.resolve(SRC_PATH, 'pages');
 var COMMON_CSS_PATH = path.resolve(FRONTEND_PATH, 'css');
 var BUILD_PATH = path.resolve(ROOT_PATH, 'static/build');
-var IMAGE_PATH = path.resolve(FRONTEND_PATH, 'img');
-var NODE_MODULES_PATH = path.resolve(ROOT_PATH, 'node_modules');
+var IMAGE_PATH = path.resolve(SRC_PATH, 'img');
+var NODE_MODULES_PATH = path.resolve(FRONTEND_PATH, 'node_modules');
 
 module.exports = {
-    devtool: 'eval-source-map',
-    entry: path.resolve(FRONTEND_PATH,'index.js'),
+    devtool: NODE_ENV == 'development' ? 'eval-source-map' : 'cheap-module-source-map',
+    entry: [
+        'webpack-dev-server/client?http://localhost:3000',
+        'webpack/hot/only-dev-server',
+        path.resolve(SRC_PATH,'index.js')
+    ],
 
     output: {
         path: BUILD_PATH,
-        publicPath: NODE_ENV == 'development' ? '/build/' : '',
-        filename: 'bundle.js'
+        publicPath: 'http://localhost:4000/static/build/',
+        filename: "[name]-[hash].js",
     },
 
     resolve: {
         extensions: ['', '.js', '.jsx', '.json'],
-        modulesDirectories: [FRONTEND_PATH, NODE_MODULES_PATH]
+        modulesDirectories: [FRONTEND_PATH, NODE_MODULES_PATH, SRC_PATH]
     },
 
     module: {
         loaders: [
             {
                 test: /\.js/,
-                loader: 'babel',
-                include: FRONTEND_PATH,
+                loaders: ['react-hot', 'babel'],
+                include: SRC_PATH,
+                exclude: NODE_MODULES_PATH
             },
             {
                 test: /\.css/,
@@ -58,6 +65,9 @@ module.exports = {
     },
 
     plugins: [
+        new webpack.HotModuleReplacementPlugin(),
+        new webpack.NoErrorsPlugin(),
+        new BundleTracker({filename: './webpack-stats.json'}),
         new webpack.DefinePlugin({
             'process.env': {
                 'NODE_ENV': JSON.stringify(NODE_ENV)
@@ -69,10 +79,8 @@ module.exports = {
         })
     ],
 
-    devTool: NODE_ENV == 'development' ? 'eval-source-map' : null,
-
     devServer: {
-        contentBase: path.resolve(ROOT_PATH, 'static'),
+        contentBase: path.resolve(ROOT_PATH, 'main/templates/main'),
         historyApiFallback: true,
         hot: true,
         inline: true,

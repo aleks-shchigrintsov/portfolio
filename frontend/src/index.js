@@ -3,8 +3,8 @@ import { Router, Route, Redirect, IndexRedirect, browserHistory } from 'react-ro
 import ReactDOM from 'react-dom';
 import ES6Promise from 'es6-promise';
 import { createHashHistory } from 'history'
-import MainComponent from 'components/MainComponent/MainComponent.js';
-import Routes from './routes.js';
+import MainComponent from 'components/MainComponent/MainComponent';
+import Routes from 'routes.js';
 
 ES6Promise.polyfill();
 

@@ -6,7 +6,7 @@ export default class MainComponent extends Component {
     render() {
         return (
           <div className={styles.wrapper}>
-              Hello
+              Hellodddaaaaadd
           </div>
         );
     }
