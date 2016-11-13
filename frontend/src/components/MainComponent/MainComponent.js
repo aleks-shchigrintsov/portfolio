@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
+import React, { Component, PropTypes } from 'react';
 
-import styles from './MainComponent.css';
+import styles from './MainComponent.modules.css'
 
-export default class MainComponent extends Component {
-    render() {
-        return (
-          <div className={styles.wrapper}>
-              sdadddaaaa
-          </div>
-        );
-    }
-}
+const MainComponent = () => {
+    return (
+        <div className={styles.mainComponent}>
+            sdasddasdads
+        </div>
+    );
+};
+
+export default MainComponent;
