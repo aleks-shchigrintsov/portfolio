@@ -1,8 +1,6 @@
 var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var webpack = require('webpack');
-var precss = require('precss');
-var autoprefixer = require('autoprefixer');
 var BundleTracker = require('webpack-bundle-tracker')
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
@@ -16,7 +14,7 @@ var COMMON_CSS_PATH = path.resolve(FRONTEND_PATH, 'css');
 var BUILD_PATH = path.resolve(ROOT_PATH, 'static/build');
 var IMAGE_PATH = path.resolve(SRC_PATH, 'img');
 var NODE_MODULES_PATH = path.resolve(FRONTEND_PATH, 'node_modules');
-var cssModulesConfigStr = 'modules&sourceMap&camelCase=dashes&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]';
+var cssModulesConfigStr = 'modules&sourceMap&camelCase=dashes&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!';
 
 
 module.exports = {
@@ -44,10 +42,6 @@ module.exports = {
             { test: /\.(ttf|eot|svg)(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "file-loader" },
             { test: /\.(png|jpg|svg|ttf|eot|woff|woff2)$/, loader: 'file?name=[path][name].[ext]?[hash]'}
         ],
-    },
-
-    postcss: function () {
-        return [precss, autoprefixer];
     },
 
     plugins: [
@@ -96,7 +90,7 @@ if (NODE_ENV == 'production') {
         {
             test: /\.css/,
             include: [COMPONENTS_PATH, COMMON_CSS_PATH],
-            loader: 'style?sourceMap!css?' + cssModulesConfigStr
+            loader: 'style?sourceMap!css?' + cssModulesConfigStr + 'postcss-loader'
         }
     )
 }
@@ -112,7 +106,7 @@ if (NODE_ENV == 'development') {
         {
             test: /\.css/,
             include: [COMPONENTS_PATH, COMMON_CSS_PATH],
-            loader: ExtractTextPlugin.extract('style-loader', 'css-loader?' + cssModulesConfigStr)
+            loader: ExtractTextPlugin.extract('style-loader', 'css-loader?' + cssModulesConfigStr + 'postcss-loader')
         }
     )
 }
