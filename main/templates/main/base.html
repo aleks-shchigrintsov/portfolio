@@ -11,15 +11,14 @@
     {% block styles %}{% endblock %}
 
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:400,700" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/foundation/6.2.4/foundation.min.css" rel="stylesheet">
 
     {{ HEAD_CLOSING|safe }}
 </head>
 <body>
-<main>
-    {% block content %}{% endblock %}
+{% block content %}{% endblock %}
 
-    {% block scripts %}{% endblock %}
-</main>
+{% block scripts %}{% endblock %}
 
 {{ BODY_CLOSING|safe }}
 </body>

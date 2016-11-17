@@ -1,0 +1,10 @@
+@value customRed, customWhite from '../../css/colors.css';
+
+.navBar-link-component, .navBar-link-component:focus, .navBar-link-component:hover {
+    color: customWhite;
+    margin-right: 2rem;
+}
+
+.active {
+    border-bottom: 1px solid customRed;
+}

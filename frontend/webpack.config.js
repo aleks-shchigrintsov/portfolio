@@ -1,7 +1,7 @@
 var path = require('path');
 var ExtractTextPlugin = require('extract-text-webpack-plugin');
 var webpack = require('webpack');
-var BundleTracker = require('webpack-bundle-tracker')
+var BundleTracker = require('webpack-bundle-tracker');
 
 const NODE_ENV = process.env.NODE_ENV || 'development';
 
@@ -9,12 +9,19 @@ var ROOT_PATH = path.resolve(__dirname, '..');
 var FRONTEND_PATH = path.resolve(ROOT_PATH, 'frontend');
 var SRC_PATH = path.resolve(FRONTEND_PATH, 'src');
 var COMPONENTS_PATH = path.resolve(SRC_PATH, 'components');
-var PAGES_PATH = path.resolve(SRC_PATH, 'pages');
+var CONTAINERS_PATH = path.resolve(SRC_PATH, 'containers');
 var COMMON_CSS_PATH = path.resolve(FRONTEND_PATH, 'css');
 var BUILD_PATH = path.resolve(ROOT_PATH, 'static/build');
 var IMAGE_PATH = path.resolve(SRC_PATH, 'img');
 var NODE_MODULES_PATH = path.resolve(FRONTEND_PATH, 'node_modules');
-var cssModulesConfigStr = 'modules&sourceMap&camelCase=dashes&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]!';
+var cssModulesConfigStr = 'modules&sourceMap&camelCase=dashes&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]';
+
+var precss       = require('precss');
+var autoprefixer = require('autoprefixer');
+
+function postcss() {
+    return [precss, autoprefixer];
+}
 
 
 module.exports = {
@@ -29,13 +36,12 @@ module.exports = {
 
     resolve: {
         extensions: ['', '.js', '.jsx', '.json'],
-        modulesDirectories: [FRONTEND_PATH, NODE_MODULES_PATH, SRC_PATH]
+        modulesDirectories: [FRONTEND_PATH, NODE_MODULES_PATH, SRC_PATH, COMPONENTS_PATH, CONTAINERS_PATH]
     },
 
     module: {
         loaders: [
             { test: /\.png$/, loader: "url-loader?limit=500000&mimetype=image/png" },
-            { test: /\.jpg$/, loader: "url-loader?limit=500000&mimetype=image/jpg", include: IMAGE_PATH },
             { test: /\.json$/, loaders: ['json-loader'], include: NODE_MODULES_PATH },
             { test: /\.gif$/, loader: "file-loader" },
             { test: /\.woff(2)?(\?v=[0-9]\.[0-9]\.[0-9])?$/, loader: "url-loader?limit=10000&mimetype=application/font-woff" },
@@ -99,14 +105,14 @@ if (NODE_ENV == 'development') {
     module.exports.plugins.push(new webpack.HotModuleReplacementPlugin());
     module.exports.module.loaders.push({
             test: /\.js/,
-            loaders: ['react-hot', 'babel'],
+            loaders: [ 'babel'],
             include: SRC_PATH,
             exclude: NODE_MODULES_PATH
         },
         {
             test: /\.css/,
             include: [COMPONENTS_PATH, COMMON_CSS_PATH],
-            loader: ExtractTextPlugin.extract('style-loader', 'css-loader?' + cssModulesConfigStr + 'postcss-loader')
+            loader: ExtractTextPlugin.extract('style-loader', 'css-loader?' + cssModulesConfigStr + 'c')
         }
     )
 }

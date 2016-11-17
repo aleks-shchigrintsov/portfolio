@@ -1,0 +1,9 @@
+@value colors: "../../css/colors.css";
+@value customWhite, customRed from colors;
+
+.logo-component {
+    font-size: 32px;
+    padding: 0 0.7rem;
+    background-color: customRed;
+    color: customWhite;
+}

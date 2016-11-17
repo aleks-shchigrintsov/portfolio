@@ -1,0 +1,17 @@
+
+/*FLEXBOX*/
+.flex {
+    display: flex;
+}
+
+.flexColumn {
+    flex-direction: column;
+}
+
+.flexRow {
+    flex-direction: row;
+}
+
+.alignCenter {
+    align-items: center;
+}

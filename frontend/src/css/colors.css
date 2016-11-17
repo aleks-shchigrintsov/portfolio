@@ -1,0 +1,6 @@
+@value customRed: #EE6C6C;
+@value customWhite: #fff;
+
+.background-red {
+    background-color: customRed;
+}

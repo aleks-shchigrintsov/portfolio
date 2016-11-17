@@ -1,0 +1,5 @@
+## LogoComponent
+
+Logo component
+
+### Usage

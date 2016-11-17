@@ -1,3 +1,6 @@
 .mainComponent {
     display: flex;
+    flex-direction: column;
+    height: 100vh;
+    background-image: url("../../img/background.jpg");
 }
